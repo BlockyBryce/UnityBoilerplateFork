@@ -12,8 +12,8 @@ public class MainMenu : MonoBehaviour
         //for this to work, level1 is added
         SceneManager.LoadScene("level1");
     }
-    public void Exit()
+    public void ExitGame ()
     {
-        Application.Quit();
+        Application.Quit(); 
     }
 }
