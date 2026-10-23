@@ -56,7 +56,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Build-WebGL
-          path: build/WebGL/WebGL
+          path: build/WebGL
 
   # ------------------------------------------------------------------
   # 2. DEPLOY — publishes the build artifact to GitHub Pages.
