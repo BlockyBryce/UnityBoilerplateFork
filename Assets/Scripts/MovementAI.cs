@@ -1,0 +1,178 @@
+using UnityEngine;
+using TMPro;
+
+public class MovementAI : MonoBehaviour
+{
+    // The ai level of the entity
+    public int aILevel;
+    public float movementOpportunityTimerLength = 5f;
+    // The movement opportunity timer
+    private float movementOpportunityTimer;
+    // If true = start the timer, if false = don't start the timer
+    public bool movementOpportunityTimerActive = true;
+    // If a movement opportunity was successful or not
+    private bool movementOpportunitySuccess;
+    public string currentPoint;
+
+    public TextMeshProUGUI movementOpportunityTimerText;
+    public TextMeshProUGUI currentAILevelText;
+    public TextMeshProUGUI movementOpportunitySuccessText;
+    public TextMeshProUGUI currentPointText;
+
+    public GameObject entitySprite;
+
+    // Chance to go from point 1 directly to point 3
+    public int skipToPoint3Chance;
+    // Chance to go from point 4 to point 4s
+    public int goToPoint4sChance;
+    // Chance to go from point 4s to point 4
+    public int returnToPoint4Chance;
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        movementOpportunityTimer = movementOpportunityTimerLength;
+        currentPoint = "1";
+        GameObject entitySprite = GameObject.Find("Rampage");
+    }
+
+    // Update is called once per frame
+    void Update()
+   {
+        // Prevent the timer from happening if movementOpportunityTimerStart = false
+        if (!movementOpportunityTimerActive) return;
+
+        if (movementOpportunityTimer > 0)
+        {
+            movementOpportunityTimer -= Time.deltaTime;
+        }
+        else
+        {
+            movementOpportunityTimer = movementOpportunityTimerLength;
+            executeMovementOpportunity();
+        }
+
+        UpdateDebugInfo();
+    }
+
+    void UpdateDebugInfo()
+    {
+        movementOpportunityTimerText.text = movementOpportunityTimer.ToString(format: "0.0000");
+        currentAILevelText.text = aILevel.ToString();
+        movementOpportunitySuccessText.text = movementOpportunitySuccess.ToString();
+        currentPointText.text = currentPoint.ToString();
+    }
+
+    void executeMovementOpportunity()
+    {
+        int low = 1;
+        int high = 20;
+        // Random number generated between 1 and 20
+        int randomAINum = UnityEngine.Random.Range(low, high + 1);
+
+        if (randomAINum <= aILevel)
+        {
+            movementOpportunitySuccess = true;
+            successfulMovementOpportunity();
+        }
+        else
+        {
+            movementOpportunitySuccess = false;
+        }
+    }
+
+    void successfulMovementOpportunity()
+    {
+        // Random number for multible possible directions
+        int randomPercent = UnityEngine.Random.Range(1, 101);
+        if (currentPoint == "1")
+        {
+            // The chance to go down one of the halls in point 1
+            int point1HallSplitChance = (100 - skipToPoint3Chance) / 2;
+            if (randomPercent <= skipToPoint3Chance)
+            {
+                currentPoint = "3";
+            }
+            else if (randomPercent <= skipToPoint3Chance + point1HallSplitChance)
+            {
+                currentPoint = "2A";
+            }
+            else
+            {
+                currentPoint = "2B";
+            }
+        }
+        else if (currentPoint == "2A" || currentPoint == "2B")
+        {
+            currentPoint = "3";
+        }
+        else if (currentPoint == "3")
+        {
+            currentPoint = "4";
+        }
+        else if (currentPoint == "4")
+        {
+            if (randomPercent <= goToPoint4sChance)
+            {
+                currentPoint = "4s";
+            }
+            else
+            {
+                currentPoint = "Final";
+            }
+        }
+        else if (currentPoint == "4s")
+        {
+            if (randomPercent <= returnToPoint4Chance)
+            {
+                currentPoint = "4";
+            }
+            else
+            {
+                currentPoint = "Final";
+            }
+        }
+        else if (currentPoint == "Final")
+        {
+            Debug.Log("Jumpscare");
+            currentPoint = "1";
+        }
+        else
+        {
+            Debug.LogWarning("Invalid point");
+        }
+        updatePosition(currentPoint);
+    }
+
+    void updatePosition(string currentPoint)
+    {
+        if (currentPoint == "1")
+        {
+            entitySprite.transform.position = new Vector3(-329.4571f, 15f, 401.6519f);
+        }
+        else if (currentPoint == "2A")
+        {
+            entitySprite.transform.position = new Vector3(-515.9302f, 15f, 108.2468f);
+        }
+        else if (currentPoint == "2B")
+        {
+            entitySprite.transform.position = new Vector3(-143f, 15f, 108.2468f);
+        }
+        else if (currentPoint == "3")
+        {
+            entitySprite.transform.position = new Vector3(-331f, 15f, 108.2468f);
+        }
+        else if (currentPoint == "4")
+        {
+            entitySprite.transform.position = new Vector3(-324.7435f, 15f, 8f);
+        }
+        else if (currentPoint == "4s")
+        {
+            entitySprite.transform.position = new Vector3(-242.1016f, 15f, -51.6341f);
+        }
+        else if (currentPoint == "Final")
+        {
+            entitySprite.transform.position = new Vector3(-324.7435f, 15f, -91.8738f);
+        }
+    }
+}
