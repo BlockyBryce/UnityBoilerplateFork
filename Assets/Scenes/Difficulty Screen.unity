@@ -1557,7 +1557,7 @@ GameObject:
   - component: {fileID: 1944307802}
   - component: {fileID: 1944307803}
   m_Layer: 0
-  m_Name: Dificulty Manager
+  m_Name: Difficulty Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
