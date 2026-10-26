@@ -3,6 +3,8 @@ using TMPro;
 
 public class MovementAI : MonoBehaviour
 {
+    public const bool HEAVYFOOTSTEPS = true;
+
     // The ai level of the entity
     public int aILevel;
     public float movementOpportunityTimerLength = 5f;
@@ -27,6 +29,8 @@ public class MovementAI : MonoBehaviour
     public int goToPoint4sChance;
     // Chance to go from point 4s to point 4
     public int returnToPoint4Chance;
+
+    public DoorController doorController;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -70,7 +74,12 @@ public class MovementAI : MonoBehaviour
         // Random number generated between 1 and 20
         int randomAINum = UnityEngine.Random.Range(low, high + 1);
 
-        if (randomAINum <= aILevel)
+        // If entity is outside of door and the door is closed on a movement opportunity, auto block
+        if (currentPoint == "Final" && doorController.doorOpen == false)
+        {
+            blockedByDoor();
+        }
+        else if (randomAINum <= aILevel)
         {
             movementOpportunitySuccess = true;
             successfulMovementOpportunity();
@@ -134,8 +143,14 @@ public class MovementAI : MonoBehaviour
         }
         else if (currentPoint == "Final")
         {
-            Debug.Log("Jumpscare");
-            currentPoint = "1";
+            if (doorController.doorOpen == true)
+            {
+                blockedByDoor();
+            }
+            else
+            {
+                Debug.Log("Jumpscare");
+            }
         }
         else
         {
@@ -144,8 +159,16 @@ public class MovementAI : MonoBehaviour
         updatePosition(currentPoint);
     }
 
+    void blockedByDoor()
+    {
+        var audioPlayer = FindAnyObjectByType<AudioController>();
+        audioPlayer.PlayDoorThump();
+        currentPoint = "1";
+    }
     void updatePosition(string currentPoint)
     {
+        var audioPlayer = FindAnyObjectByType<AudioController>();
+        audioPlayer.playFootSteps(HEAVYFOOTSTEPS);
         if (currentPoint == "1")
         {
             entitySprite.transform.position = new Vector3(-329.4571f, 15f, 401.6519f);
@@ -164,7 +187,7 @@ public class MovementAI : MonoBehaviour
         }
         else if (currentPoint == "4")
         {
-            entitySprite.transform.position = new Vector3(-324.7435f, 15f, 8f);
+            entitySprite.transform.position = new Vector3(68.3f, 13.4f, 285.2f);
         }
         else if (currentPoint == "4s")
         {
@@ -172,7 +195,7 @@ public class MovementAI : MonoBehaviour
         }
         else if (currentPoint == "Final")
         {
-            entitySprite.transform.position = new Vector3(-324.7435f, 15f, -91.8738f);
+            entitySprite.transform.position = new Vector3(66.2757f, 13.9f, 53.6f);
         }
     }
 }
