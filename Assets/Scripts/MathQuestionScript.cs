@@ -15,13 +15,9 @@ public class MathGameController : MonoBehaviour
     [Header("Buttons")]
     public Button checkAnswerButton;
 
-    [Header("Shared Battery")]
-    public Slider batterySlider;
-    public TMP_Text batteryText;
-
     [Header("Battery Settings")]
     public int batteryGain = 10;
-    public int batteryLoss = 10;
+    public int batteryLoss = -10;
 
     private int correctAnswer;
     private int correctCount = 0;
@@ -32,13 +28,6 @@ public class MathGameController : MonoBehaviour
     {
         // Connect the Check Answer button.
         checkAnswerButton.onClick.AddListener(CheckAnswer);
-
-        // Keep the battery within its proper range.
-        batterySlider.minValue = 0;
-        batterySlider.maxValue = 100;
-
-        // Display the current battery without resetting it.
-        UpdateBatteryDisplay();
 
         // Show the starting score.
         UpdateScore();
@@ -116,6 +105,7 @@ public class MathGameController : MonoBehaviour
     // Check the number entered by the player.
     public void CheckAnswer()
     {
+        var batteryScript = FindAnyObjectByType<BatteryDisplay>();
         if (gameOver || waitingForNextQuestion)
         {
             return;
@@ -140,30 +130,19 @@ public class MathGameController : MonoBehaviour
         {
             correctCount++;
 
-            ChangeBattery(batteryGain);
+            batteryScript.ChangeBattery(batteryGain);
 
             feedbackText.text = "Correct! Battery increased.";
         }
         else
         {
-            ChangeBattery(-batteryLoss);
+            batteryScript.ChangeBattery(batteryLoss);
 
             feedbackText.text =
                 "Incorrect! The answer was " + correctAnswer + ".";
         }
 
         UpdateScore();
-
-        // End the challenge if the battery reaches zero.
-        if (batterySlider.value <= 0)
-        {
-            gameOver = true;
-
-            feedbackText.text =
-                "Battery depleted! Restart the challenge.";
-
-            return;
-        }
 
         // Wait briefly before displaying another question.
         StartCoroutine(NextQuestion());
@@ -174,26 +153,6 @@ public class MathGameController : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
 
         GenerateQuestion();
-    }
-
-    // Change the shared battery.
-    private void ChangeBattery(int amount)
-    {
-        batterySlider.value = Mathf.Clamp(
-            batterySlider.value + amount,
-            0,
-            100
-        );
-
-        UpdateBatteryDisplay();
-    }
-
-    // Display the current battery percentage.
-    private void UpdateBatteryDisplay()
-    {
-        int percentage = Mathf.RoundToInt(batterySlider.value);
-
-        batteryText.text = percentage + "%";
     }
 
     // Update the correct-answer counter.
@@ -215,7 +174,6 @@ public class MathGameController : MonoBehaviour
         // The player must earn battery by answering correctly.
 
         UpdateScore();
-        UpdateBatteryDisplay();
         GenerateQuestion();
     }
 }

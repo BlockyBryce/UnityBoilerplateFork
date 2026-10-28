@@ -3,6 +3,8 @@ using System.Collections;
 
 public class DoorController : MonoBehaviour
 {
+    public bool doorPowerDrainEnabled = true;
+    public float doorPowerDain = -0.001f;
     public bool doorOpen = true;
     public GameObject door;
     public float closeSpeed = 200f;
@@ -19,10 +21,11 @@ public class DoorController : MonoBehaviour
 
     void Update()
     {
+        var batteryScript = FindAnyObjectByType<BatteryDisplay>();
+        var audioPlayer = FindAnyObjectByType<AudioController>();
         if (Input.GetKeyDown(KeyCode.W))
         {
-            var audioPlayer = FindAnyObjectByType<AudioController>();
-            if (doorMoving == false)
+            if (doorMoving == false && batteryScript.batteryAmount > batteryScript.batteryMinValue)
             {
                 audioPlayer.DoorButtonPress(true);
                 if (doorOpen == true)
@@ -42,6 +45,13 @@ public class DoorController : MonoBehaviour
                 audioPlayer.DoorButtonPress(false);
             }
         }
+        if (doorOpen == false && batteryScript.batteryAmount <= batteryScript.batteryMinValue)
+        {
+            doorOpen = true;
+            target = openPos.transform;
+            audioPlayer.DoorButtonPress(true);
+            doorMoving = true;
+        }
 
         if (doorMoving == true)
         {
@@ -58,6 +68,11 @@ public class DoorController : MonoBehaviour
         if (door.transform.position == target.position)
         {
             doorMoving = false;
+        }
+        // Drain power if door is closed
+        if (doorPowerDrainEnabled && doorOpen == false)
+        {
+            batteryScript.ChangeBattery(doorPowerDain);
         }
     }
 }

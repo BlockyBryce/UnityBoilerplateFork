@@ -4,43 +4,47 @@ using TMPro;
 
 public class BatteryDisplay : MonoBehaviour
 {
-    public Slider batterySlider;
-    public TMP_Text batteryText;
+    public MainMenu mainMenu;
+    public bool passivePowerDrainEnabled = true;
+    public float passivePowerDrain = -0.000005f;
+    [Header("Battery Settings")]
+    public float batteryAmount;
+    public int batteryMinValue = 0;
+    public int batteryMaxValue = 100;
+    [Header("Battery text fields")]
+    public TMP_Text debugBatteryText;
+    public TMP_Text homeBatteryText;
+    public TMP_Text mathBatteryText;
 
     private void Start()
     {
         UpdateBatteryDisplay();
-
-        batterySlider.onValueChanged.AddListener(
-            OnBatteryChanged
-        );
     }
 
-    private void OnDestroy()
+    private void Update()
     {
-        if (batterySlider != null)
+        var mainMenu = FindAnyObjectByType<MainMenu>();
+        if (passivePowerDrainEnabled)
         {
-            batterySlider.onValueChanged.RemoveListener(
-                OnBatteryChanged
-            );
+            ChangeBattery(passivePowerDrain);
         }
-    }
-
-    private void OnBatteryChanged(float value)
-    {
-        UpdateBatteryDisplay();
+        if ( batteryAmount >= batteryMaxValue)
+        {
+            mainMenu.BackToMainMenu();
+        }
     }
 
     public void UpdateBatteryDisplay()
     {
-        int percentage = Mathf.RoundToInt(batterySlider.value);
-
-        batteryText.text = percentage + "%";
+        debugBatteryText.text = batteryAmount + "%";
+        int percentage = Mathf.RoundToInt(batteryAmount);
+        homeBatteryText.text = percentage + "%";
+        mathBatteryText.text = percentage + "%";
     }
 
-    public void SetBattery(float value)
+    public void ChangeBattery(float value)
     {
-        batterySlider.value = Mathf.Clamp(value, 0f, 100f);
+        batteryAmount += value;
         UpdateBatteryDisplay();
     }
 }

@@ -2,46 +2,77 @@ using UnityEngine;
 
 public class TabletController : MonoBehaviour
 {
-    public float closeSpeed = 10f;
-    public CanvasGroup tablet;
-    //public GameObject tabletObject;
-    //Vector2 tabletUpPoint;
-    //Vector2 tabletDownPoint;
-
     public bool tabletUp = false;
+    [Header("Debug")]
+    public bool debugOnScreen = false;
+    // If debug info can be turned on or off, false = debug always off
+    public bool debugAllowed = true;
+    public GameObject debugCanvas;
+    [Header("Power drain")]
+    public bool tabletPowerDrainEnabled = true;
+    public float tabletPowerDrain = -0.0001f;
+    [Header("Screens")]
+    public GameObject mathCanvas;
+    public GameObject tabletHomeCanvas;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        tablet.alpha = 0f;
-        tablet.interactable = false;
-        tablet.blocksRaycasts = false;
-        //tabletUpPoint = new Vector2 (0f, 0f);
-        //tabletDownPoint = new Vector2(100f, 100f);
+        debugCanvas.SetActive(false);
+        tabletHomeCanvas.SetActive(false);
+        mathCanvas.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
+        var batteryScript = FindAnyObjectByType<BatteryDisplay>();
+        // Turn on or off tablet
         if (Input.GetKeyDown(KeyCode.E))
         {
-            float step = closeSpeed * Time.deltaTime;
-            if (tabletUp)
+            if (tabletUp && batteryScript.batteryAmount > batteryScript.batteryMinValue)
             {
-                //tabletObject.transform.position = Vector2.MoveTowards(tabletObject.transform.position, tabletDownPoint, step);
-                tablet.alpha = 0f;
-                tablet.interactable = false;
-                tablet.blocksRaycasts = false;
                 tabletUp = false;
+                // turn on the home tablet canvas and turn off all non tablet canvases
+                tabletHomeCanvas.SetActive(false);
+                mathCanvas.SetActive(false);
             }
             else
             {
-                //tabletObject.transform.position = Vector2.MoveTowards(tabletObject.transform.position, tabletUpPoint, step);
-                tablet.alpha = 1f;
-                tablet.interactable = true;
-                tablet.blocksRaycasts = true;
                 tabletUp = true;
+                // turn off all tablet canvases
+                tabletHomeCanvas.SetActive(true);
+                mathCanvas.SetActive(false);
             }
+        }
+        // Turn off tablet if there is no power
+        if (batteryScript.batteryAmount <= batteryScript.batteryMinValue)
+        {
+            tabletUp = false;
+            // turn on the home tablet canvas and turn off all non tablet canvases
+            tabletHomeCanvas.SetActive(false);
+            mathCanvas.SetActive(false);
+        }
+        if (debugAllowed)
+        {
+            // Enable debug into when '~' is pressed
+            if (Input.GetKeyDown(KeyCode.BackQuote))
+            {
+                if (debugOnScreen)
+                {
+                    debugOnScreen = false;
+                    debugCanvas.SetActive(false);
+                }
+                else
+                {
+                    debugOnScreen = true;
+                    debugCanvas.SetActive(true);
+                }
+            }
+        }
+        if (tabletPowerDrainEnabled && tabletUp == true)
+        {
+            batteryScript.ChangeBattery(tabletPowerDrain);
         }
     }
 }

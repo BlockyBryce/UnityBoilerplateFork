@@ -6,6 +6,7 @@ public class MovementAI : MonoBehaviour
     public const bool HEAVYFOOTSTEPS = true;
 
     // The ai level of the entity
+    [Header("Basic ai")]
     public int aILevel;
     public float movementOpportunityTimerLength = 5f;
     // The movement opportunity timer
@@ -15,14 +16,14 @@ public class MovementAI : MonoBehaviour
     // If a movement opportunity was successful or not
     private bool movementOpportunitySuccess;
     public string currentPoint;
-
+    [Header("Debug text ui")]
     public TextMeshProUGUI movementOpportunityTimerText;
     public TextMeshProUGUI currentAILevelText;
     public TextMeshProUGUI movementOpportunitySuccessText;
     public TextMeshProUGUI currentPointText;
-
+    [Header("Sprite")]
     public GameObject entitySprite;
-
+    [Header("Path split chances")]
     // Chance to go from point 1 directly to point 3
     public int skipToPoint3Chance;
     // Chance to go from point 4 to point 4s
@@ -31,6 +32,7 @@ public class MovementAI : MonoBehaviour
     public int returnToPoint4Chance;
 
     public DoorController doorController;
+    public MainMenu mainMenu;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -87,11 +89,13 @@ public class MovementAI : MonoBehaviour
         else
         {
             movementOpportunitySuccess = false;
+            updatePosition(currentPoint);
         }
     }
 
     void successfulMovementOpportunity()
     {
+        var mainMenu = FindAnyObjectByType<MainMenu>();
         // Random number for multible possible directions
         int randomPercent = UnityEngine.Random.Range(1, 101);
         if (currentPoint == "1")
@@ -143,13 +147,14 @@ public class MovementAI : MonoBehaviour
         }
         else if (currentPoint == "Final")
         {
-            if (doorController.doorOpen == true)
+            if (doorController.doorOpen == false)
             {
                 blockedByDoor();
             }
             else
             {
                 Debug.Log("Jumpscare");
+                mainMenu.BackToMainMenu();
             }
         }
         else
@@ -164,11 +169,15 @@ public class MovementAI : MonoBehaviour
         var audioPlayer = FindAnyObjectByType<AudioController>();
         audioPlayer.PlayDoorThump();
         currentPoint = "1";
+        updatePosition(currentPoint);
     }
     void updatePosition(string currentPoint)
     {
         var audioPlayer = FindAnyObjectByType<AudioController>();
-        audioPlayer.playFootSteps(HEAVYFOOTSTEPS);
+        if (movementOpportunitySuccess)
+        {
+            audioPlayer.playFootSteps(HEAVYFOOTSTEPS);
+        }
         if (currentPoint == "1")
         {
             entitySprite.transform.position = new Vector3(-329.4571f, 15f, 401.6519f);
@@ -183,11 +192,11 @@ public class MovementAI : MonoBehaviour
         }
         else if (currentPoint == "3")
         {
-            entitySprite.transform.position = new Vector3(-331f, 15f, 108.2468f);
+            entitySprite.transform.position = new Vector3(66.28302f, 13.4f, 309);
         }
         else if (currentPoint == "4")
         {
-            entitySprite.transform.position = new Vector3(68.3f, 13.4f, 285.2f);
+            entitySprite.transform.position = new Vector3(66.2f, 13.4f, 202.9f);
         }
         else if (currentPoint == "4s")
         {
@@ -195,7 +204,7 @@ public class MovementAI : MonoBehaviour
         }
         else if (currentPoint == "Final")
         {
-            entitySprite.transform.position = new Vector3(66.2757f, 13.9f, 53.6f);
+            entitySprite.transform.position = new Vector3(66.2757f, 13.4f, 53.6f);
         }
     }
 }
