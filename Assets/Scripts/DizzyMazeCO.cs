@@ -10,8 +10,11 @@ public class SendsUsertoDizzyMaze : MonoBehaviour
     }
 
     // Update is called once per frame
-    void BackToMainGame()
+    public void OnTriggerEnter(Collider other)
     {
-        SceneManager.LoadScene("Main Menu");
+        if (other.CompareTag("Player"))
+        {
+            SceneManager.LoadScene("Main Menu");
+        }
     }
 }
