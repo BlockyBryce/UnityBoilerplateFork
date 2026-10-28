@@ -153,7 +153,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.3000002}
+  m_AnchoredPosition: {x: 0, y: 0.30000305}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &12069813
@@ -393,6 +393,50 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!1 &437862349
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 437862351}
+  - component: {fileID: 437862350}
+  m_Layer: 0
+  m_Name: Dizzy Maze Switcher
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &437862350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 437862349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca38f32dbfa51d541b1026107cc2a27c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SendsUsertoDizzyMaze
+--- !u!4 &437862351
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 437862349}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 299.95126, y: 139.05145, z: -189.18723}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &444836511
 GameObject:
   m_ObjectHideFlags: 0
@@ -420,18 +464,18 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 444836511}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -8.8}
+  m_LocalPosition: {x: 0, y: 0, z: -8.799812}
   m_LocalScale: {x: 2.20091, y: 2.8420138, z: 2.8420138}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 12069812}
   m_Father: {fileID: 811551674}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -5, y: 79}
-  m_SizeDelta: {x: 160, y: 30}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 218.92682, y: 78.999756}
+  m_SizeDelta: {x: 160, y: -420}
+  m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &444836513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -475,7 +519,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 444836514}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 437862350}
+        m_TargetAssemblyTypeName: SendsUsertoDizzyMaze, Assembly-CSharp
+        m_MethodName: GoToDizzyMaze
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &444836514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -679,7 +735,7 @@ RectTransform:
   m_GameObject: {fileID: 663873787}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -8.8}
-  m_LocalScale: {x: 3.2410553, y: 3.482295, z: 1.0402051}
+  m_LocalScale: {x: 4.616235, y: 4.9598327, z: 1.4815642}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1747222607}
@@ -687,8 +743,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -85, y: -15}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -94, y: -15}
+  m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &663873789
 MonoBehaviour:
@@ -945,7 +1001,7 @@ RectTransform:
   m_GameObject: {fileID: 748793777}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -8.8}
-  m_LocalScale: {x: 3.2410553, y: 3.482295, z: 1.0402051}
+  m_LocalScale: {x: 4.5015016, y: 4.83656, z: 1.4447409}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1520093456}
@@ -953,8 +1009,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 76, y: -15}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 86, y: -15}
+  m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &748793779
 MonoBehaviour:
@@ -1316,10 +1372,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 748793778}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0000076293945, y: 0.8999996}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.39375, y: 0}
+  m_AnchorMax: {x: 0.56875, y: 1}
+  m_AnchoredPosition: {x: -0.70000005, y: 0.8999996}
+  m_SizeDelta: {x: 132, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1520093457
 MonoBehaviour:
@@ -1407,7 +1463,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 38.426445, y: 0, z: 35.71698, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1565,10 +1621,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 663873788}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0000076293945, y: 0.8999996}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.4, y: 0}
+  m_AnchorMax: {x: 0.58124995, y: 1}
+  m_AnchoredPosition: {x: 9.4, y: 0.8999996}
+  m_SizeDelta: {x: 131, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1747222608
 MonoBehaviour:
@@ -1658,7 +1714,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 61.665283, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1801,3 +1857,4 @@ SceneRoots:
   - {fileID: 811551674}
   - {fileID: 1547669756}
   - {fileID: 1664496542}
+  - {fileID: 437862351}

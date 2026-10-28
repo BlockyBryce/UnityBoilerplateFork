@@ -1,9 +1,9 @@
-/* 
+
 using Unity.VectorGraphics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainMenu : MonoBehaviour
+public class MainMenuPart1 : MonoBehaviour
 {
 
     //OBS I deleted the start and update the function
@@ -18,4 +18,3 @@ public class MainMenu : MonoBehaviour
         Application.Quit(); 
     }
 }
-*/
